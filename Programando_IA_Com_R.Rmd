@@ -288,6 +288,16 @@ diag(matrizA) #identidade
 
 print("Inversa")
 solve(matrizA)  #inversa, esta deve ser quadrada
+
+matrizA <- cbind(matrizA, c(5,2)) #Adiciona colunas no fim da matriz
+
+#Colunas adicionadas
+print("Colunas adicionadas")
+matrizA
+
+print("Linhas adicionadas")
+matrizA <- rbind(matrizA, c(5,2, 3))
+matrizA
 ```
 
 
@@ -397,12 +407,56 @@ wday(data, label = T)
 
 
 
+### Estruturas de controle
+
+Para tomar algumas decisões durante a execução de código, o R fornece algumas estruturas de controle.
+
+```{r}
+
+souBonito <- TRUE
+
+if (souBonito) {
+  print("Eu Sei")
+} else {
+  print("Vish")
+}
+
+souBonito <- F
+ifelse(souBonito, "verdade", "falso")
+
+```
+
+Estruturas de controle são muito úteis quando você precisa testar algum tipo de condição, se alguma compra foi realizada por exemplo, ou se algo ocorreu.
+
+### Estruturas de repetição = loops
 
 
+Loops são utilizados quando precisamos por exemplo repetir um conjunto de instruções para determinados itens.
+```{r}
+itens <- c(10,20,30)
 
+for (variable in itens) {
+  print(variable)
+}
+```
 
+Veja que escrevemos todos os itens do vetor na tela, podemos utilizar para consolidar informações e enfim, para qualquer conjunto de instruções que precise se repetir.
 
+Vamos montar um dataframe com um loop
 
+```{r}
+vetor <- 1:10
+acumulado <- 0
+tabela <- data.frame();
+for (variable in vetor) {
+  acumulado <- variable + acumulado
+   tabela <- rbind(tabela, c(variable, acumulado))
+}
+
+colnames(tabela) <- c("Valor1", "Acumulado")
+tabela
+
+```
 
 
 
