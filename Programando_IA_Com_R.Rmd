@@ -490,9 +490,97 @@ concatena("Sergio", "Prates")
 
 
 
+### Amostras
+
+No R possuimos a função sample para randomizar a ocorrência de determinados valores
+```{r}
+
+# Letras de a até g
+amostra1 <- letters[1:7]
+
+# Letras de A até D
+amostra2 <- LETTERS[1:4]
+
+# Pode repetir as ocorrências
+sample(x = amostra1, size = 20, replace = T)
+
+# Não pode repetir as ocorrências
+sample(x = amostra2, size = 3,  replace = F)
+```
+
+Para garantir que sempre o mesmo resultado aconteça, podemos utilizar a função set.seed com um valor fixo
+```{r}
+set.seed(1)
+sample(x = amostra1, size = 20, replace = T)
+```
 
 
 
+### Simulações
+
+O R nos fornecea alguns comandos para gerar dados aleatórios, sendo eles da família normal, binomial e uniforme.
+
+Os comandos da familia normal possuem norm no final, os binomiais possuem binom e assim por diante...
+Veja abaixo exemplos:
+
+```{r}
+set.seed(18) #garantindo que sempre sairá o mesmo resultado
+
+# sd representa o desvio padrão dos dados
+
+print("rnorm")
+rnorm(n=10, mean=0, sd=1)
+
+print("dnorm")
+dnorm(x = 1:10, mean = 0, sd = 1)
+
+print("pnorm")
+pnorm( q = 1:10, mean = 0, sd = 1)
+
+print("rbinom")
+rbinom(size = 1:10, prob = c(0.1,0.1,0.1,0.1,0.1,0.1,1,1,1,1), n = 10)
+
+print("dbinom")
+dbinom(size = 1:10, prob = c(0.1,0.1,0.1,0.1,0.1,0.1,1,1,1,1), x = 1:10)
+
+print("pbinom")
+pbinom(q = 1:10, size = 1:10, prob = c(0.1,0.1,0.1,0.1,0.1,0.1,1,1,1,1))
+
+print("Distribuição de poison")
+rpois(100, 5)
+```
+
+
+### Plots básico
+
+Para fazer plots, ou gráficos em R podemos utilizar a função plot()
+```{r}
+plot(x = cars$speed, y = cars$dist, type = "p", xlab = "Velocidade", ylab = "Distância", main = "Distância x Velocidade")
+plot(x = cars$speed, y = cars$dist, type = "l", xlab = "Velocidade", ylab = "Distância", main = "Distância x Velocidade")
+plot(x = cars$speed, y = cars$dist, type = "h", xlab = "Velocidade", ylab = "Distância", main = "Distância x Velocidade")
+```
+
+Podemos utilizar a equação abaixo para plotar um gráfico linear
+$y = \beta_0 + \beta_1 + \epsilon$
+
+Onde
+
+$\beta_0 = 0,5$
+
+$\beta_1 = 2,0$
+
+$x\sim N(0;1²)$
+
+$\epsilon\sim N(0;2²)$
+
+```{r}
+set.seed(5)
+x = rnorm(n=200, mean=0, sd=1)
+e = rnorm(n=200, mean=0, sd=2)
+y=0.5 + 2*x + e
+
+plot(x=x, y=y)
+```
 
 
 
