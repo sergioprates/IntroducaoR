@@ -1,0 +1,238 @@
+---
+title: "Programando IA com R"
+output: html_notebook
+---
+
+
+#### Portfólio
+
+### Conceitos de variáveis
+
+
+**Vetor**
+
+Toda variável no R é um vetor, um vetor pode visto como um conjunto de valores linear e homogêneo.
+
+Para atribuir um valor à uma variável, utilizamos a seta <- indicando para onde estamos direcionando o valor.
+
+É importante saber também, que para criar um vetor com valores, podemos utilizar a função c() que combina os valores em um vetor
+
+Sendo assim, abaixo estamos criando a variável vetor e atribuindo o valor 1 5 4
+
+```{r}
+vetor <- c(1, 5, 4)
+
+vetor
+```
+
+
+### Tipos de valores
+
+**Numéricos e Caracteres**
+
+
+No R tempos o conceito de tipos, onde cada valor tem um tipo específico, lembra das aulas de matemática sobre inteiros, decimais, etc?
+
+Para verificar o tipo interpretado pelo R de um valor, podemos utilizar a função class(valor), onde valor é igual ao valor que você quer verificar.
+
+```{r}
+class(5)
+class("Olá mundo")
+```
+
+
+**Reconhecendo tipos de variáveis**
+
+Veja que o R reconheceu o valor 5 como númerico e o texto "Olá mundo" como um conjunto de caracteres.
+
+Isto também se aplica a variáveis, veja só:
+
+```{r}
+variavel_numerica <- c(1,5,4,7)
+variavel_caracteres <- c("Olá mundo")
+
+class(variavel_numerica)
+class(variavel_caracteres)
+```
+
+
+Também podemos usar as funções disponíveis em "is" para verificar os tipos, essa verificação retorna um tipo lógico para nós
+```{r}
+variavel <- "5"
+is.numeric(variavel)
+is.character(variavel)
+```
+
+
+
+**Lógicos**
+
+No R, também é possível criar tipos lógicos (verdadeiro ou falso)
+
+```{r}
+logicos <- c(TRUE, FALSE, TRUE)
+logicos2 <- c(T, F, T)
+
+logicos
+logicos2
+
+class(logicos)
+```
+
+
+Veja que é possível abreviar as declarações. 
+
+**Inteiros Explicitos**
+
+Você deve ter percebido que no caso do tipo numérico, o tipo não foi declarado explicitamente como inteiro, para fazer isso veja o próximo trecho:
+
+```{r}
+inteiros <- c(1L, 2L, 3L)
+
+inteiros
+class(inteiros)
+```
+
+
+### Gerando sequências
+
+Gerar sequências no R é uma coisa muito fácil e divertida! Temos algumas formas para  fazer isso:
+
+```{r}
+#Gerando números de 1 a 10
+1:10
+
+#Gerando números de 10 a 1
+10:1
+
+#Gerando números de 100 a 120
+
+seq(100, 120)
+
+#Gerando 10 números a partir de 100
+
+seq(100, length.out = 10)
+
+#Gerando números de 10 a 20 de 2 em 2
+
+seq.int(from = 10, to = 20, by = 2)
+
+#Gerando 20 números
+
+seq_len(20)
+
+#Gerando um vetor do mesmo tamanho que o vetor passado
+
+seq_along(c(70, 2))
+
+#Repetindo o número 4 5 vezes
+
+rep(4, times = 5)
+
+```
+
+**NA, NaN, Inf, -Inf e NULL**
+
+Os tipos especiais são valores que possuem uma característica bem específica.
+
+NA = Não disponível (Not Available)
+NaN = Não númerico (Not A Number)
+Inf = Infinito
+-Inf = -Infinito
+NULL = Vazio
+
+Perceba que NA possui um tipo, mas NULL não, NULL representa o nada no caso do R e de diversas linguagens de programação.
+
+Um detalhe é que não é possível colocar NULL em um vetor.
+
+```{r}
+valor.na <- NA
+valor.null <- NULL
+valor.infinito <- Inf;
+valor.menos.infinito <- -Inf
+valor.nan <- NaN
+```
+
+
+### Operações aritméticas
+
+No R é possível fazer operações aritméticas entre os valores disponíveis, abaixo teremos exemplos para algumas operações aritméticas simples:
+```{r}
+
+# Adição
+adicao <- 5+5
+adicao
+
+# Subtração
+subtracao <- 5-5
+subtracao
+
+# Multiplicação
+multiplicao <- 5*5
+multiplicao
+
+# Divisão
+divisao <- 5/5
+divisao
+
+#Raiz Quadrada
+
+raiz <- sqrt(10)
+raiz
+
+#Numero imaginário
+numero <- 1i
+numero
+```
+
+**Operações com vetores**
+
+As operações aritméticas se estendem a vetores também, veja abaixo um exemplo:
+
+```{r}
+# Vetor de dez posições
+vetor <- c(1:10)
+
+vetor * 2
+
+# Veja que obtemos o dobro de cada valor do vetor, isso se aplica para todas as operações.
+
+```
+
+
+
+### Tipos avançados
+
+**Listas**
+
+No R, temos o tipo de lista onde é possível armazenar vetores com tipos diferentes:
+```{r}
+
+v1 <- c(1, 2, 3);
+v2 <- c(T, F, T);
+v3 <- c("a", "b", "c");
+lista <- list(v1, v2, v3)
+
+class(lista)
+
+lista
+```
+
+
+
+**Matrizes**
+
+Matrizes são um conjunto de valores distribuídos em linhas e colunas. A visualização abaixo deve esclarecer melhor:
+```{r}
+matriz <- matrix(ncol = 5, nrow = 5, data = 1:5)
+
+matriz
+```
+
+Você deve ter percebido que também é possível atribuir uma matriz para uma variável
+
+
+
+
+
+
