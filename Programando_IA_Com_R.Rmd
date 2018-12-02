@@ -143,7 +143,7 @@ NULL = Vazio
 
 Perceba que NA possui um tipo, mas NULL não, NULL representa o nada no caso do R e de diversas linguagens de programação.
 
-Um detalhe é que não é possível colocar NULL em um vetor.
+Um detalhe é que não é possível colocar NULL em um vetor, ou seja, caso criemos um vetor com NULL, o R remove ele automáticamente
 
 ```{r}
 valor.na <- NA
@@ -151,6 +151,10 @@ valor.null <- NULL
 valor.infinito <- Inf;
 valor.menos.infinito <- -Inf
 valor.nan <- NaN
+
+vetor.com.null <- c(10,10,10,NULL)
+
+vetor.com.null
 ```
 
 
@@ -229,9 +233,50 @@ matriz <- matrix(ncol = 5, nrow = 5, data = 1:5)
 matriz
 ```
 
-Você deve ter percebido que também é possível atribuir uma matriz para uma variável
+Você deve ter percebido que também é possível atribuir uma matriz para uma variável com esse exemplo.
+
+Vamos a um exemplo de operação com matrizes
+```{r}
+matrizA <- matrix(ncol = 5, nrow = 5, data = 1:5)
+matrizB <- matrix(ncol = 5, nrow = 5, data = 1:5)
+
+# Esta operação abaixo não é uma multiplicação de matrizes, é apenas uma multiplicação de valores.
+matriz <- matrizA * matrizB
+
+matriz
+```
+
+Para fazermos uma multiplicaçáo de matrizes, precisamos seguir uma regra: a quantidade de colunas da matriz A deve ser equivalente a quantidade de linhas da matriz B.
+
+Abaixo um exemplo de multiplicação de matrizes:
+```{r}
+linhas <- 5
+colunas <- 10
+
+matrizA <- matrix(ncol = linhas, nrow = colunas, data = 1:2)
+matrizB <- matrix(ncol = colunas, nrow = linhas, data = 1:2)
+
+matrizA %*% matrizB
+```
 
 
+**Funções úteis para matrizes**
+
+```{r}
+matrizA <- matrix(ncol = 2, nrow = 2, data = 1:4)
+
+print("Dimensões da matriz - Linhas x Colunas")
+dim(matrizA)  #inversa, esta deve ser quadrada
+
+print("Transposta")
+t(matrizA) #transposta
+
+print("Identidade")
+diag(matrizA) #identidade
+
+print("Inversa")
+solve(matrizA)  #inversa, esta deve ser quadrada
+```
 
 
 
