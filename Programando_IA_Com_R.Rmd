@@ -460,3 +460,43 @@ tabela
 
 
 
+
+### Funções
+
+Funções são utilizadas quando queremos reaproveitar algum trecho de código específico. por exemplo, digamos que precisamos calcular o enesimo termo de uma Progressão Aritmética
+
+```{r}
+
+primeiro.termo <- 1
+razao <- 2
+
+obter.termo.pa <- function(primeiro.termo, numero.termo, razao) {
+  return(primeiro.termo + (numero.termo - 1) * razao)
+}
+
+obter.termo.pa(primeiro.termo, 50, razao)
+```
+
+Em funções, podemos receber reticências como parametro, que significa que podemos receber N parametros na função. Um exemplo de função assim é a função paste.
+```{r}
+
+concatena <- function(...) {
+  c <- paste(...)
+  c
+}
+
+concatena("Sergio", "Prates")
+```
+
+
+
+
+
+
+
+
+
+
+
+
+
