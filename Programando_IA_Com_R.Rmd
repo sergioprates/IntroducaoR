@@ -207,6 +207,18 @@ vetor * 2
 
 ### Tipos avançados
 
+**Fatores**
+
+Através de fatores, é possível classificar dados para que as máquinas consigam processar com mais facilidade. Veja que no output, o R escreve "Levels: Feminino Masculino" para identificar as classes encontradas.
+```{r}
+sexo <- c("Feminino", "Masculino","Feminino", "Masculino","Feminino", "Masculino","Feminino", "Masculino","Feminino", "Masculino")
+
+fatorado <- as.factor(sexo);
+
+fatorado
+```
+
+
 **Listas**
 
 No R, temos o tipo de lista onde é possível armazenar vetores com tipos diferentes:
@@ -277,6 +289,119 @@ diag(matrizA) #identidade
 print("Inversa")
 solve(matrizA)  #inversa, esta deve ser quadrada
 ```
+
+
+**Data Frame**
+
+Criar um dataframe é bem simples, veja:
+```{r}
+
+vetorA <- c(1,5,4,7)
+vetorB <- c("Olá mundo")
+
+dataframe <- data.frame(vetorA, vetorB)
+
+# Colocando nomes nas colunas
+
+colnames(dataframe) <- c("Numérico", "Texto")
+
+dataframe
+```
+
+O mais legal do dataframe, é que conseguimos colocar dados heterogêneos, ao contrário dos vetores e matrizes.
+
+Também é possível criar um dataframe a partir de uma lista:
+```{r}
+lista <- list(c(1,2), c(T,F), c("teste", "teste2"))
+
+dataframe <- data.frame(lista)
+
+dataframe
+```
+
+
+**Datas**
+
+Geralmente o trabalho com datas é uma das coisas mais complexas em programação. Vamos ver aqui algumas funções que o R disponibiliza para nós:
+```{r}
+data.texto = "13/11/2018 T 19:10:00"
+data.date = as.Date(data.texto,format="%d/%m/%Y T %H:%M:%S",tz="America/Sao_Paulo")
+data.time1 = as.POSIXct(data.texto,format="%d/%m/%Y T %H:%M:%S",tz="America/Sao_Paulo")
+data.time2 = as.POSIXlt(data.texto,format="%d/%m/%Y T %H:%M:%S",tz="America/Sao_Paulo")
+data.time1
+data.time2
+data.date 
+```
+
+Através do método unclass, podemos ver o conteúdo real de uma variável, suas propriedades e etc.
+Quando passamos data.date para a função unclass, obtemos a quantidade de dias desde 01/01/1970 até a data da variável.
+
+```{r}
+unclass(data.date)
+```
+
+
+No caso de time1 e time2 veja que não temos diferenças no texto, entretanto veja quando fazemos o unclass.
+```{r}
+print("Time1")
+unclass(data.time1)
+
+print("Time2")
+unclass(data.time2)
+```
+
+O unclass no time1 retorna a contagem em segundos desde 01/01/1970 até a data da variável!!
+
+
+Para obter a data atual
+```{r}
+Sys.Date()
+```
+
+
+
+**Lubridate**
+
+Lubridate é um pacote disponibilizado para manipular datas no R.
+Para instalar e carregar:
+```{r}
+install.packages("lubridate")
+library(lubridate)
+```
+
+
+O lubridate fornece funções que retornarão a data no formato solicitado e além disso ele trabalha com o conceito de duração.
+```{r}
+segundos  = dseconds(260)
+minutos  = dminutes(260)
+anos  = dyears(260)
+
+duration(10, units = "seconds")
+
+segundos
+minutos
+anos
+
+#abaixo as funções de data
+
+#Ano mes dia
+data <- ymd("20190101")
+
+# Dia mes ano hora
+dmy_h("1110201810")
+
+# Retorna o dia da semana
+wday(data, label = T)
+
+```
+
+
+
+
+
+
+
+
 
 
 
