@@ -560,6 +560,8 @@ plot(x = cars$speed, y = cars$dist, type = "l", xlab = "Velocidade", ylab = "Dis
 plot(x = cars$speed, y = cars$dist, type = "h", xlab = "Velocidade", ylab = "Distância", main = "Distância x Velocidade")
 ```
 
+### Usando outra biblioteca...
+
 Podemos utilizar a equação abaixo para plotar um gráfico linear
 $y = \beta_0 + \beta_1 + \epsilon$
 
@@ -574,14 +576,88 @@ $x\sim N(0;1²)$
 $\epsilon\sim N(0;2²)$
 
 ```{r}
+#install.packages('plotly')
+library(plotly)
+
 set.seed(5)
-x = rnorm(n=200, mean=0, sd=1)
-e = rnorm(n=200, mean=0, sd=2)
+x = rnorm(n=350, mean=0, sd=1)
+e = rnorm(n=350, mean=0, sd=2)
 y=0.5 + 2*x + e
 
 plot(x=x, y=y)
+
+plot_ly(x=x, y=y, type="scatter", mode="markers")
 ```
 
+
+
+### Baixando dados externos
+
+Com a função download file podemos baixar arquivos da web, neste caso ele sempre trata como texto os dados.
+
+
+```{r}
+
+baixar <- function(url) {
+  
+  #Cria a pasta caso não exista
+  
+  if(!file.exists('data')){
+    dir.create('data')
+  }
+  
+  file.url = url
+  file.local = file.path('./data', basename(file.url))
+  download.file(url = file.url, destfile = file.local , mode='wb')
+}
+
+baixar('https://raw.githubusercontent.com/elthonf/fiap-mba-r/master/data/Copas.csv')
+baixar('https://raw.githubusercontent.com/elthonf/fiap-mba-r/master/data/Copas-Partidas.csv')
+baixar('https://raw.githubusercontent.com/elthonf/fiap-mba-r/master/data/Copas-Jogadores.csv')
+baixar('https://github.com/elthonf/fiap-mba-r/raw/master/data/cameras.baltimore.xlsx')
+
+```
+
+### Lendo dados de csv's
+
+Para ler dados de csvs podemos utilizar a função read.csv
+
+
+```{r}
+copas <- read.csv('./data/Copas.csv', header = T)
+copas
+```
+
+Para ler dados do excel, podemos utilizar o pacote 
+
+```{r}
+#install.packages('readxl')
+library(readxl)
+
+df.cameras <- read_xlsx('./data/cameras.baltimore.xlsx')
+
+head(df.cameras)
+```
+
+
+### Manipulando estruturas de tabelas com dplyr
+
+O pacote dplyr nos ajuda a manipular estruturas de tabelas de maneira bastante eficiente.
+
+Abaixo utilizamos o pipe para passar o conteúdo 
+
+```{r}
+#install.packages('dplyr')
+library(dplyr)
+
+BrFlights2 %>%
+mutate(Partida.Atraso = (Partida.Real - Partida.Prevista)) %>% 
+mutate(Chegada.Atraso = (Chegada.Real - Chegada.Prevista)) %>% 
+mutate(Distancia = (sqrt((LatOrig - LatDest)^2 + (LongOrig - LongDest)^2))) %>% 
+mutate(TempoViagem.Real = (Chegada.Real - Partida.Real)) -> tabela
+
+tabela
+```
 
 
 
