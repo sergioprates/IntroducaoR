@@ -528,25 +528,18 @@ set.seed(18) #garantindo que sempre sairá o mesmo resultado
 
 # sd representa o desvio padrão dos dados
 
-print("rnorm")
 rnorm(n=10, mean=0, sd=1)
 
-print("dnorm")
 dnorm(x = 1:10, mean = 0, sd = 1)
 
-print("pnorm")
 pnorm( q = 1:10, mean = 0, sd = 1)
 
-print("rbinom")
 rbinom(size = 1:10, prob = c(0.1,0.1,0.1,0.1,0.1,0.1,1,1,1,1), n = 10)
 
-print("dbinom")
 dbinom(size = 1:10, prob = c(0.1,0.1,0.1,0.1,0.1,0.1,1,1,1,1), x = 1:10)
 
-print("pbinom")
 pbinom(q = 1:10, size = 1:10, prob = c(0.1,0.1,0.1,0.1,0.1,0.1,1,1,1,1))
 
-print("Distribuição de poison")
 rpois(100, 5)
 ```
 
@@ -557,7 +550,26 @@ Para fazer plots, ou gráficos em R podemos utilizar a função plot()
 ```{r}
 plot(x = cars$speed, y = cars$dist, type = "p", xlab = "Velocidade", ylab = "Distância", main = "Distância x Velocidade")
 plot(x = cars$speed, y = cars$dist, type = "l", xlab = "Velocidade", ylab = "Distância", main = "Distância x Velocidade")
+
+#Histogramas servem para analisar frequências
 plot(x = cars$speed, y = cars$dist, type = "h", xlab = "Velocidade", ylab = "Distância", main = "Distância x Velocidade")
+
+
+plot(x = cars$speed, y = cars$dist, type = "b", xlab = "Velocidade", ylab = "Distância", main = "Distância x Velocidade")
+
+plot(x = cars$speed, y = cars$dist, type = "o", xlab = "Velocidade", ylab = "Distância", main = "Distância x Velocidade")
+
+plot(x = cars$speed, y = cars$dist, type = "s", xlab = "Velocidade", ylab = "Distância", main = "Distância x Velocidade")
+
+#Analisar correlação
+#Tendencia
+#Distribuição
+
+#Box plot é um summary em gráficos
+
+boxplot(airquality)
+
+boxplot(airquality$Ozone, outline = F)
 ```
 
 ### Usando outra biblioteca...
@@ -576,7 +588,7 @@ $x\sim N(0;1²)$
 $\epsilon\sim N(0;2²)$
 
 ```{r}
-#install.packages('plotly')
+install.packages('plotly')
 library(plotly)
 
 set.seed(5)
@@ -589,6 +601,32 @@ plot(x=x, y=y)
 plot_ly(x=x, y=y, type="scatter", mode="markers")
 ```
 
+
+
+### Gerando gráfico com pontos e linhas
+
+```{r}
+airquality %>% filter(Month == 5 & !is.na(Ozone)) %>% arrange(Ozone) %>% select(Ozonio = Ozone) -> ozonio
+
+
+ozonio %>% summary() %>% as.list() -> valores
+
+plot(ozonio$Ozonio)
+
+
+minimo <- min(teste$Ozonio)
+maximo <- max(teste$Ozonio)
+media <- mean(teste$Ozonio)
+mediana <- median(teste$Ozonio)
+quartil <- quantile(teste$Ozonio)
+
+
+lines(c(0, 30), c(minimo, minimo), col = 'blue')
+lines(c(0, 30), c(maximo, maximo), col = 'blue')
+lines(c(0, 30), c(media, media), col = 'blue')
+lines(c(0, 30), c(mediana, mediana), col = 'red')
+lines(c(0, 30), c(11.00, 11.00), col = 'blue')
+```
 
 
 ### Baixando dados externos
@@ -631,7 +669,7 @@ copas
 Para ler dados do excel, podemos utilizar o pacote 
 
 ```{r}
-#install.packages('readxl')
+install.packages('readxl')
 library(readxl)
 
 df.cameras <- read_xlsx('./data/cameras.baltimore.xlsx')
@@ -647,7 +685,7 @@ O pacote dplyr nos ajuda a manipular estruturas de tabelas de maneira bastante e
 Abaixo utilizamos o pipe para passar o conteúdo 
 
 ```{r}
-#install.packages('dplyr')
+install.packages('dplyr')
 library(dplyr)
 
 BrFlights2 %>%
