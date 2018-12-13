@@ -736,3 +736,24 @@ points(modelo$centers, col=1:nclusters, pch = 3, cex=3, lwd = 2)
 ```
 
 
+### Clusterizando 3 dimensões
+
+```{r}
+set.seed(1909)
+
+velocidade <- rnorm(15, mean = rep(1:3, each = 5), sd = 0.2)
+vento <- rnorm(15, mean = rep(c(1,2), each = 5), 0.2)
+altura <- rnorm(15, mean = rep(c(1,2), each = 5), 0.2)
+
+df <- data.frame(velocidade, vento, altura)
+
+nclusters <- 4
+modelo <- kmeans(x = df, centers = nclusters, iter.max = 5)
+
+
+plot(df,col= modelo$cluster, pch = 19, cex=2);
+
+#Pontos apenas funciona em plot único.
+points(modelo$centers, col=1:nclusters, pch = 3, cex=3, lwd = 2)
+```
+
