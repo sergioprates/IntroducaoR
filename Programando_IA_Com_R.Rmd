@@ -6,6 +6,20 @@ output: html_notebook
 
 #### Portfólio
 
+### Carregando pacotes
+
+```{r}
+install.packages("lubridate")
+library(lubridate)
+install.packages('plotly')
+library(plotly)
+install.packages('dplyr')
+library(dplyr)
+install.packages('leaflet')
+library(leaflet)
+```
+
+
 ### Conceitos de variáveis
 
 
@@ -375,8 +389,8 @@ Sys.Date()
 Lubridate é um pacote disponibilizado para manipular datas no R.
 Para instalar e carregar:
 ```{r}
-install.packages("lubridate")
-library(lubridate)
+#install.packages("lubridate")
+#library(lubridate)
 ```
 
 
@@ -588,8 +602,8 @@ $x\sim N(0;1²)$
 $\epsilon\sim N(0;2²)$
 
 ```{r}
-install.packages('plotly')
-library(plotly)
+#install.packages('plotly')
+#library(plotly)
 
 set.seed(5)
 x = rnorm(n=350, mean=0, sd=1)
@@ -669,8 +683,8 @@ copas
 Para ler dados do excel, podemos utilizar o pacote 
 
 ```{r}
-install.packages('readxl')
-library(readxl)
+#install.packages('readxl')
+#library(readxl)
 
 df.cameras <- read_xlsx('./data/cameras.baltimore.xlsx')
 
@@ -685,8 +699,8 @@ O pacote dplyr nos ajuda a manipular estruturas de tabelas de maneira bastante e
 Abaixo utilizamos o pipe para passar o conteúdo 
 
 ```{r}
-install.packages('dplyr')
-library(dplyr)
+#install.packages('dplyr')
+#library(dplyr)
 
 BrFlights2 %>%
 mutate(Partida.Atraso = (Partida.Real - Partida.Prevista)) %>% 
@@ -755,5 +769,18 @@ plot(df,col= modelo$cluster, pch = 19, cex=2);
 
 #Pontos apenas funciona em plot único.
 points(modelo$centers, col=1:nclusters, pch = 3, cex=3, lwd = 2)
+```
+
+
+### Plotando mapas
+
+Para plotar mapas, utilizamos a biblioteca leaflet
+
+```{r}
+
+#install.packages('leaflet')
+library(leaflet)
+leaflet(data = quakes[1:20,]) %>% addTiles() %>%
+  addMarkers(~long, ~lat, popup = ~as.character(mag), label = ~as.character(mag))
 ```
 
