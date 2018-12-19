@@ -9,15 +9,32 @@ output: html_notebook
 ### Carregando pacotes
 
 ```{r}
-install.packages("lubridate")
-library(lubridate)
-install.packages('plotly')
-library(plotly)
-install.packages('dplyr')
-library(dplyr)
-install.packages('leaflet')
-library(leaflet)
+#install.packages('ggplot2', dependencies=TRUE, repos='http://cran.r-project.org')
+#
+#install.packages("lubridate")
+#
+#install.packages('plotly')
+#
+#install.packages('dplyr')
+#
+#install.packages('leaflet')
+#
+#install.packages('corrplot')
+
+#install.packages('readxl')
+
 ```
+
+```{r}
+library(ggplot2)
+library(leaflet)
+library(dplyr)
+library(plotly)
+library(lubridate)
+library(corrplot)
+library(readxl)
+```
+
 
 
 ### Conceitos de variáveis
@@ -291,27 +308,21 @@ matrizA %*% matrizB
 ```{r}
 matrizA <- matrix(ncol = 2, nrow = 2, data = 1:4)
 
-print("Dimensões da matriz - Linhas x Colunas")
 dim(matrizA)  #inversa, esta deve ser quadrada
 
-print("Transposta")
 t(matrizA) #transposta
 
-print("Identidade")
 diag(matrizA) #identidade
 
-print("Inversa")
 solve(matrizA)  #inversa, esta deve ser quadrada
 
 matrizA <- cbind(matrizA, c(5,2)) #Adiciona colunas no fim da matriz
 
-#Colunas adicionadas
-print("Colunas adicionadas")
-matrizA
+matrizA #Colunas adicionadas
 
-print("Linhas adicionadas")
-matrizA <- rbind(matrizA, c(5,2, 3))
-matrizA
+matrizA <- rbind(matrizA, c(5,2, 3)) 
+
+matrizA #Linhas adicionadas
 ```
 
 
@@ -367,11 +378,10 @@ unclass(data.date)
 
 No caso de time1 e time2 veja que não temos diferenças no texto, entretanto veja quando fazemos o unclass.
 ```{r}
-print("Time1")
-unclass(data.time1)
 
-print("Time2")
-unclass(data.time2)
+unclass(data.time1) #Time1
+
+unclass(data.time2) #Time2
 ```
 
 O unclass no time1 retorna a contagem em segundos desde 01/01/1970 até a data da variável!!
@@ -532,7 +542,7 @@ sample(x = amostra1, size = 20, replace = T)
 
 ### Simulações
 
-O R nos fornecea alguns comandos para gerar dados aleatórios, sendo eles da família normal, binomial e uniforme.
+O R nos fornece alguns comandos para gerar dados aleatórios, sendo eles da família normal, binomial e uniforme.
 
 Os comandos da familia normal possuem norm no final, os binomiais possuem binom e assim por diante...
 Veja abaixo exemplos:
@@ -556,6 +566,15 @@ pbinom(q = 1:10, size = 1:10, prob = c(0.1,0.1,0.1,0.1,0.1,0.1,1,1,1,1))
 
 rpois(100, 5)
 ```
+
+### Resumo do dataset com Glimpse
+
+Glimpse é uma função que está dentro do pacote dplyr. É muito interessante por que conseguimos ver um resumo dos dados e amostras. Veja abaixo para ficar mais claro o glimpse com o dataset do mtcars
+
+```{r}
+glimpse(mtcars)
+```
+
 
 
 ### Plots básico
@@ -614,6 +633,7 @@ plot(x=x, y=y)
 
 plot_ly(x=x, y=y, type="scatter", mode="markers")
 ```
+
 
 
 
@@ -683,13 +703,12 @@ copas
 Para ler dados do excel, podemos utilizar o pacote 
 
 ```{r}
-#install.packages('readxl')
-#library(readxl)
 
 df.cameras <- read_xlsx('./data/cameras.baltimore.xlsx')
 
 head(df.cameras)
 ```
+
 
 
 ### Manipulando estruturas de tabelas com dplyr
@@ -699,8 +718,8 @@ O pacote dplyr nos ajuda a manipular estruturas de tabelas de maneira bastante e
 Abaixo utilizamos o pipe para passar o conteúdo 
 
 ```{r}
-#install.packages('dplyr')
-#library(dplyr)
+
+BrFlights2 <- read.csv('./data/BrFlights2.csv')
 
 BrFlights2 %>%
 mutate(Partida.Atraso = (Partida.Real - Partida.Prevista)) %>% 
@@ -710,6 +729,10 @@ mutate(TempoViagem.Real = (Chegada.Real - Partida.Real)) -> tabela
 
 tabela
 ```
+
+
+
+
 
 ### Visualizando gráficos lado a lado
 
@@ -771,16 +794,183 @@ plot(df,col= modelo$cluster, pch = 19, cex=2);
 points(modelo$centers, col=1:nclusters, pch = 3, cex=3, lwd = 2)
 ```
 
+### Cluster com plotly
 
-### Plotando mapas
+```{r}
+set.seed(1909)
 
-Para plotar mapas, utilizamos a biblioteca leaflet
+x <- rnorm(15, mean = rep(1:3, each = 5), sd = 0.2)
+y <- rnorm(15, mean = rep(c(1,2), each = 5), 0.2)
+plot(x, y, col = 'blue', pch = 8, cex = 1)
+text(x + 0.05, y + 0.05, labels = as.character(1:15))
+
+df <- data.frame(x, y)
+
+nclusters <- 3
+modelo <- kmeans(x = df, centers = nclusters, iter.max = 5)
+
+
+plot_ly(df,
+        x = ~x, 
+        y = ~y,
+        type = 'scatter', mode ='markers',color = modelo$cluster)
+```
+
+### Cluster 3D com plotly
+
+```{r}
+set.seed(1909)
+
+velocidade <- rnorm(15, mean = rep(1:50, each = 5), sd = 0.2)
+vento <- rnorm(15, mean = rep(c(1,25), each = 5), 0.2)
+altura <- rnorm(15, mean = rep(c(1,25), each = 5), 0.2)
+
+df <- data.frame(velocidade, vento, altura)
+
+nclusters <- 4
+modelo <- kmeans(x = df, centers = nclusters, iter.max = 5)
+
+
+plot_ly(df,
+        x = ~velocidade, 
+        y = ~vento,
+        z= ~altura,
+        type = 'scatter3d', mode ='markers',color = modelo$cluster)
+```
+
+
+### Dendrograma (Clusterização hierárquica)
+
+```{r}
+set.seed(1909)
+x <- rnorm(15, mean = rep(1:3, each = 5), sd = 0.2)
+y <- rnorm(15, mean = rep(c(1, 2), each = 5), sd = 0.2)
+mydata <- data.frame(x, y)
+
+# Distancia euclidiana
+#dist(mydata[1:7,])
+#Distancia de manhattan
+#dist(mydata[1:7,], method = "manhattan")
+
+modelo.hc <- hclust(dist(mydata))
+
+plot(modelo.hc, main="Dendograma simples",xlab="Observações", sub="", ylab ="DIstancia")
+```
+
+
+### Anaálise da média de ozonio diário por mês
 
 ```{r}
 
-#install.packages('leaflet')
-library(leaflet)
-leaflet(data = quakes[1:20,]) %>% addTiles() %>%
-  addMarkers(~long, ~lat, popup = ~as.character(mag), label = ~as.character(mag))
+
+p2 <- airquality %>% 
+  mutate(mesFator = factor(Month)) %>% 
+  
+  filter(is.na(Ozone) == F) %>% 
+  
+  group_by(Day, mesFator) %>% 
+  
+  summarise(media=mean(Ozone)) %>% 
+
+  ggplot(aes(Day, media, color = mesFator)) +
+
+  geom_line(size = 1.5) +
+
+  labs(x = "Mês", y = "Média de quantidade de ozônio")
+
+p2
+
 ```
+
+### Gráfico de Violino
+
+```{r}
+p <- ggplot(mtcars, aes(factor(cyl), mpg))
+p + geom_violin(aes(fill = factor(am)))
+```
+
+
+### Gráfico de pizza
+
+```{r}
+ggplot(airquality,
+  aes(x = factor(Month), fill = Wind) ) +
+  geom_bar() +
+  coord_polar(theta = "y") +
+  scale_x_discrete("")
+```
+
+### Gráfico de Barras
+
+```{r}
+ggplot(airquality) +
+  geom_bar(aes(Temp, fill=Temp))
+```
+
+
+### Gráfico de barras verticais
+
+
+```{r}
+ggplot(airquality, aes(Month, fill=Month) ) +
+  geom_bar() + coord_flip()
+```
+
+### Gráfico Densidade 2D
+
+```{r}
+ggplot(airquality, aes( x=Wind, y=Temp) ) +
+  geom_point( size=1 ) + geom_density2d()
+```
+
+### Gráfico hexágonos
+
+```{r}
+ggplot(airquality, aes(Wind, Temp)) +
+  geom_hex( bins=30 )
+```
+
+
+### Gráfico smooth, em cinza temos o grau de confiança na linha de tendencia.
+
+```{r}
+ggplot(airquality, aes(Wind, Temp) ) +
+  geom_point() + geom_smooth()
+```
+
+
+
+### Mapa de calor
+
+```{r}
+p3 <- airquality %>%
+
+  group_by(Month, Day) %>%
+
+  summarise(TemperaturaMedia = median(Temp)) %>%
+
+  ggplot(aes(Day, Month, fill = TemperaturaMedia)) +
+
+  geom_tile() +
+
+  labs(x = "Dia do mês", y = "Mês") +
+
+  scale_fill_distiller(palette = "Spectral")
+
+p3
+```
+
+### Mapa de correlação
+
+```{r}
+airquality %>%
+
+  cor(use="complete.obs", method = "spearman") %>%
+
+  corrplot(type="lower", method="circle", diag=FALSE)
+```
+
+
+
+
 
